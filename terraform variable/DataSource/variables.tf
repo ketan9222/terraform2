@@ -22,4 +22,3 @@ variable "AMIS" {
         us-west-1 = "ami-0f40c8f97004632f9"
     }
 }
-}
