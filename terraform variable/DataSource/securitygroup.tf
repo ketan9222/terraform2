@@ -17,4 +17,4 @@ resource "aws_security_group" "sg-custom_us" {
     CreateDate = data.aws_ip_ranges.us_ec2.create_date
     SyncToken  = data.aws_ip_ranges.us_ec2.sync_token
   }
-}
+}l
