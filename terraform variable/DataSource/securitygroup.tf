@@ -1,20 +1,24 @@
-data "aws_ip_ranges" "us_ec2" {
-  regions  = ["us-west-1", "us-east-1"]
-  services = ["ec2"]
-}
-
-resource "aws_security_group" "sg-custom_us" {
-  name = "sg-custom_us"
+resource "aws_security_group" "allow_ssh" {
+  name        = "allow_ssh"
+  description = "allow_ssh inbound traffic"
+  vpc_id      = aws_vpc.ketan-vpc.id
 
   ingress {
-    from_port        = "443"
-    to_port          = "443"
+    description      = "TLS from VPC"
+    from_port        = 22
+    to_port          = 22
     protocol         = "tcp"
-    cidr_blocks      = slice(data.aws_ip_ranges.us_ec2.cidr_blocks, 0, 50)
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
   }
 
   tags = {
-    CreateDate = data.aws_ip_ranges.us_ec2.create_date
-    SyncToken  = data.aws_ip_ranges.us_ec2.sync_token
+    Name = "allow_ssh"
   }
-}l
+}

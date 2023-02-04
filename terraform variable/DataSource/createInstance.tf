@@ -1,42 +1,17 @@
-data "aws_availability_zones" "available" {}
-
-data "aws_ami" "ubuntu" {
-
-    most_recent = true
-
-    filter {
-        name   = "name"
-        values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-    }
-
-    filter {
-        name = "virtualization-type"
-        values = ["hvm"]
-    }
-
-    owners = ["099720109477"]
-}
-
-output "test" {
-  value = data.aws_ami.ubuntu
+resource "aws_key_pair" "ketan-key" {
+  key_name   = "ketan-key"
+  public_key = file(var.PATH_TO_PUBLIC_KEY)
 }
 
 
 resource "aws_instance" "MyFirstInstnace" {
-  ami           = data.aws_ami.ubuntu.id
+  ami           = lookup(var.AMIS, var.AWS_REGION)
   instance_type = "t2.micro"
-  availability_zone = data.aws_availability_zones.available.names[1]
-  
-  provisioner "local-exec" {
-    command = "echo aws_instance.MyFirstInstnace.private_ip >> private_ips.txt"
-  }
-
+  key_name = aws_key_pair.ketan-key.key_name
+  vpc_security_group_ids =[aws_security_group.allow_ssh.id]
+  subnet_id = aws_subnet.my_public_subnet-2.id
 
   tags = {
     Name = "custom_instance"
-  }
-  output "public_ip" {
-    value = aws_instance.MyFirstInstnace.public_ip
-  }
   
 }

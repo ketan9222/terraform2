@@ -2,7 +2,7 @@
 
 resource "aws_eip" "my-elasicip" {
   vpc      = true
-}
+}0
 
 #NAT Gateway
 resource "aws_nat_gateway" "my-NAT" {

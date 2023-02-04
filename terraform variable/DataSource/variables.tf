@@ -1,6 +1,6 @@
 variable "AWS_ACCESS_KEY" {
     type = string
-    default = "AKIASMSIZOF42P2VUDSZ"
+    default = ""
 }
 
 variable "AWS_SECRET_KEY" {
@@ -22,4 +22,15 @@ variable "AMIS" {
         us-west-1 = "ami-0f40c8f97004632f9"
     }
 }
-s
+variable "PATH_TO_PRIVATE_KEY" {
+    default = "ketan-key"
+}
+
+variable "PATH_TO_PUBLIC_KEY" {
+    default = "ketan-key.pub"
+}
+
+variable "INSTANCE_USERNAME" {
+    default = "ubuntu"
+  
+}
